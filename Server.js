@@ -40,8 +40,9 @@ app.use(cookieParser());
 // CORS configuration
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
-    methods: ["GET", "POST", "PUT", "DELETE ", "OPTIONS"],
+    // origin: process.env.CLIENT_URL,
+    origin: "https://dashing-pavlova-301bef.netlify.app",
+    methods: ["GET","POST","PUT","DELETE","OPTIONS"],
     credentials: true, // Allow cookies to be sent
   })
 );
