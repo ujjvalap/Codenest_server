@@ -89,7 +89,7 @@ app.use("/time", timeRoutes); // the time route
 
 // Home route
 app.get("/", (req, res) => {
-  res.send("Welcome to the coding platform. Happy Coding! 💖");
+  res.send("Welcome to the coding test platform. Happy Coding! 💖");
 });
 
 // Error handling middleware
