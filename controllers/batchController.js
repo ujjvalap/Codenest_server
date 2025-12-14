@@ -168,21 +168,48 @@ export const manageJoinRequest = async (req, res) => {
   }
 };
 
-// @desc   Get all batches (for admins)
+// // @desc   Get all batches (for admins)
+// // @route  GET /api/batches
+// // @access Admin
+// export const getBatches = async (req, res) => {
+//   try {
+//     const batches = await Batch.find()
+//       .populate("createdBy", "name email")
+//       .populate("students", "name email");
+//     res.status(200).json({ success: true, batches });
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ success: false, message: "Server Error", error: error.message });
+//   }
+// };
+
+
+// @desc   Get logged-in admin's batches (WITH quizzes)
 // @route  GET /api/batches
 // @access Admin
 export const getBatches = async (req, res) => {
   try {
-    const batches = await Batch.find()
-      .populate("createdBy", "name email")
-      .populate("students", "name email");
-    res.status(200).json({ success: true, batches });
+    const adminId = req.admin._id;
+
+    const batches = await Batch.find({ createdBy: adminId })
+      .populate("students", "_id")
+      .populate("quizzes", "_id") // 🔥 REQUIRED for quiz count
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      batches,
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Server Error", error: error.message });
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: error.message,
+    });
   }
 };
+
 
 export const getStudentQuizPerformance = async (req, res) => {
   try {
